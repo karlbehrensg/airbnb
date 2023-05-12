@@ -15,12 +15,12 @@ export default async function getListings(params: IListingsParams) {
   try {
     const {
       userId,
-      guestCount,
       roomCount,
+      guestCount,
       bathroomCount,
+      locationValue,
       startDate,
       endDate,
-      locationValue,
       category,
     } = params;
 
@@ -34,15 +34,15 @@ export default async function getListings(params: IListingsParams) {
       query.category = category;
     }
 
-    if (guestCount) {
-      query.guestCount = {
-        gte: +guestCount,
-      };
-    }
-
     if (roomCount) {
       query.roomCount = {
         gte: +roomCount,
+      };
+    }
+
+    if (guestCount) {
+      query.guestCount = {
+        gte: +guestCount,
       };
     }
 
@@ -50,6 +50,10 @@ export default async function getListings(params: IListingsParams) {
       query.bathroomCount = {
         gte: +bathroomCount,
       };
+    }
+
+    if (locationValue) {
+      query.locationValue = locationValue;
     }
 
     if (startDate && endDate) {
@@ -71,10 +75,6 @@ export default async function getListings(params: IListingsParams) {
       };
     }
 
-    if (locationValue) {
-      query.location = locationValue;
-    }
-
     const listings = await prisma.listing.findMany({
       where: query,
       orderBy: {
@@ -86,8 +86,9 @@ export default async function getListings(params: IListingsParams) {
       ...listing,
       createdAt: listing.createdAt.toISOString(),
     }));
+
     return safeListings;
   } catch (error: any) {
-    throw new Error(error.message);
+    throw new Error(error);
   }
 }

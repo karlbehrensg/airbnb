@@ -20,13 +20,13 @@ enum STEPS {
   INFO = 2,
 }
 
-const searchModal = () => {
+const SearchModal = () => {
   const router = useRouter();
   const params = useSearchParams();
   const searchModal = useSearchModal();
 
   const [location, setLocation] = useState<CountrySelectValue>();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [guestCount, setGuestCount] = useState(1);
   const [roomCount, setRoomCount] = useState(1);
   const [bathroomCount, setBathroomCount] = useState(1);
@@ -189,4 +189,4 @@ const searchModal = () => {
   );
 };
 
-export default searchModal;
+export default SearchModal;
